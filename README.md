@@ -15,14 +15,16 @@ settings:
     from_secret: drone_token
   repo: namespace/name
   branch: master
-  params:
-    - REPO=${DRONE_REPO}
-    - MESSAGE=${DRONE_COMMIT_MESSAGE}
+  param: DEMO=testtest
 ```
 
 ## Build
 
 If this build is triggered multiple times,  `REPO`、`MESSAGE` will also be updated.
+
+Env variables that will be passed automatically:
+
+`UPSTREAM_REPO` `UPSTREAM_COMMIT_MESSAGE` `UPSTREAM_COMMIT_AUTHOR`
 
 ```yaml
 name: telegram message
@@ -35,7 +37,7 @@ settings:
   message_file: template/telegram_message.tpl
   template_vars:
     repo: "${REPO=${DRONE_REPO}}"
-    message: "${MESSAGE=${DRONE_COMMIT_MESSAGE}}"
+    message: "${MESSAGE=${UPSTREAM_COMMIT_MESSAGE}}"
 when:
   status:
     - success
